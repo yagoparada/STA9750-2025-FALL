@@ -1,3 +1,12 @@
 ---
-title:             "About me"
+title: "About me"
 ---
+Hi! I’m *Yago*, a data enthusiast who loves turning complex data into clear insights.
+
+I am currently pursuing a **Master’s in Statistics with a Data Science concentration at Baruch College**, and I expect to graduate in 2026. I’m looking forward to starting a career in this field.
+
+A few fun facts about me: I love running and aim to complete the six major marathons, and I also enjoy finding vintage watches and giving them a second life.
+
+On this website, you’ll find projects I completed during my master’s program.
+
+Feel free to connect with me on LinkedIn [link](https://www.linkedin.com/in/yagoparada)

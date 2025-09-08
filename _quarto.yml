@@ -13,7 +13,7 @@ website:
     
 format:
   html:
-    theme: sandstone
+    theme: superhero
     toc: false
 
 editor:

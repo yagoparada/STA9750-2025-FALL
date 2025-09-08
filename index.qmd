@@ -2,7 +2,7 @@
 title: "About me"
 ---
 
-![](https://cdn.prod.website-files.com/637e7afd450ee24fb878e5b0/686b5c054aee5acbf1f8d4fc_acb8f103-3305-46d4-8294-2865af94ecd1.png){fig-align="center" width=300 height=300}
+![](https://cdn.prod.website-files.com/637e7afd450ee24fb878e5b0/686b5c054aee5acbf1f8d4fc_acb8f103-3305-46d4-8294-2865af94ecd1.png){fig-align="center" width=250 height=250}
 
 Hi! I’m *Yago*, a data enthusiast who loves turning complex data into clear insights.
 

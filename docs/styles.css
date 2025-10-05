@@ -1,0 +1,8 @@
+/* Make list text match paragraph text */
+ul, ol {
+  font-family: var(--bs-body-font-family) !important;
+  font-size: var(--bs-body-font-size) !important;
+  font-weight: var(--bs-body-font-weight) !important;
+  line-height: var(--bs-body-line-height) !important;
+  color: var(--bs-body-color) !important;
+}

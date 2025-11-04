@@ -635,7 +635,7 @@ B_rent_TB |>
     columns = first_col,
     backgroundColor = styleEqual(
       c(B_rent_TB[[first_col]][1:3], B_rent_TB[[first_col]][(nrow(B_rent_TB)-2):nrow(B_rent_TB)]),
-      c(rep("#F88", 3), rep("#abf7b1", 3))))
+      c(rep("#abf7b1", 3), rep("#F88", 3))))
   
 ```
 <br>

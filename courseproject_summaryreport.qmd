@@ -1,0 +1,162 @@
+---
+title: "Is there a correlation between crimes in the MTA subway system and the stations where they occur?"
+author: "Standard Deviants"
+format:
+  html:
+    toc: true
+    toc-title: "Project Navigation"
+    code-fold: true
+    code-summary: "Show the code"
+execute: 
+  warning: false
+  message: false
+---
+
+# Executive Summary
+
+Public concern regarding NYC subway safety has increased following COVID-19. One would often assume a direct link between crime and ridership, especially after COVID-19 and uneven ridership recovery. Media sometimes assume a direct link between ridership and crime, but this overlooks where and when incidents occur, and how risk changes when accounting for passenger volume.
+
+This project explores subway crime in relation to ridership and spatial context across NYC using a decade of complaint data. By combining station-level patterns, borough trends, temporal dynamics, ridership normalization, and neighborhood socioeconomic factors, we offer a comprehensive, data-driven view of how crime is distributed and scales with usage.
+
+Our findings show that subway crime is highly concentrated, especially at major Manhattan hubs; that crime scales with ridership, increasingly so after 2022; and that per-rider risk has risen since late 2023. Lower-income neighborhoods face higher normalized crime rates, and patterns vary by time of day and borough.
+
+Together, these results demonstrate that subway crime cannot be understood through raw counts alone. Instead, meaningful interpretation requires accounting for exposure, location, timing, and socioeconomic context.
+
+# 1. Motivation and Importance of the Overarching Question
+
+## 1.1 Why Subway Crime and Ridership Matter
+
+New York City’s subway is one of the world’s largest mass transit systems, carrying millions of riders each day and underpinning citywide mobility, economic activity, and daily life. Perceptions of safety strongly influence willingness to ride and can disproportionately affect workers and communities most dependent on public transit.
+
+Crime statistics, however, are frequently misinterpreted. High-volume stations naturally generate more reported incidents, even if per-rider risk is low or improving. Without adjusting for ridership or considering spatial and temporal concentration, raw crime counts can exaggerate risk and obscure where targeted safety interventions are most needed.
+
+## 1.2 Overarching Question (OQ)
+
+**Is there a correlation between crimes in the MTA subway system and the stations where they occur?**
+
+This broad question allows examination of whether crime clusters at particular stations and how ridership, time of day, borough context, and neighborhood characteristics shape observed patterns.
+
+## 1.3 Role of the Specific Questions (SQs)
+
+## Role of the Specific Questions
+To answer the overarching question, the analysis is organized around a set of Specific Questions (SQs). Each SQ probes a different dimension of subway crime, and together they form an integrated framework for understanding how risk varies across space, time, and rider exposure.
+
+Some SQs focus on spatial distribution, identifying which stations and boroughs account for the largest share of incidents. Others examine ridership volume, assessing whether busier areas experience more incidents and which boroughs show the highest crime rates once passenger traffic is considered, separating crime volume from crime risk.
+
+Additional SQs explore temporal dynamics, tracking how crime changes over time and across times of day. Another SQ links transit crime patterns to neighborhood socioeconomic factors. Together, these SQs provide a cohesive, evidence-based response to the overarching question.
+
+# 2. Data Sources and Analytical Approach
+
+## 2.1 Data Used
+
+This project integrates four primary datasets:
+
+- **NYPD Complaint Data (Historic)** covering subway-related incidents from 2015 to 2025  
+- **MTA Daily and Monthly Ridership Data (2020 onward)** for normalization
+- **American Community Survey 5-Year Estimates (2023)** for ZIP-code-level median household income
+- **MTA Station and Origin-Destination Data** to support spatial matching
+
+These datasets allow analysis from individual stations to boroughs and neighborhoods.
+
+
+## 2.2 Why These Data Are Appropriate
+
+The NYPD complaint data provide comprehensive coverage of reported subway crimes across time and space, making them well-suited for trend and hotspot analysis. MTA ridership data enable normalization of crime counts by exposure, which is critical when ridership fluctuates dramatically, as it did during COVID-19. ACS income data add socioeconomic context, allowing us to examine disparities beyond transit operations alone.
+
+## 2.3 Limitations
+
+Several limitations must be acknowledged:
+
+- **Incomplete Staten Island data** required exclusion to avoid unreliable comparisons.
+- **ZIP-code-level normalization** imperfectly reflects rider origin and destination.
+- **Borough-level ridership data** are unavailable; system-wide normalization is used for some analyses.
+- **Reported complaints** may not capture all incidents.
+
+# 3. Key Findings from the Specific Questions
+
+## 3.1 Distribution of Subway Crime Across the System
+
+Between 2015 and 2025, 128,493 subway-related crimes were reported citywide, averaging about 32 incidents per day. Manhattan accounts for roughly 44% of all incidents with 56,684 reported crimes, far exceeding other boroughs. Crime levels were stable before COVID-19, dropped during the pandemic, and rebounded strongly afterward, with Brooklyn and the Bronx reaching about double their pre-COVID levels.
+
+At the station level, crime is highly concentrated: eight of the ten highest-crime stations are in Manhattan, with 125th Street ranking first. Many of these stations are located in Midtown Manhattan, aligning with major transit hubs. The remaining two top-10 stations are in the Bronx, while the highest-ranking stations in Brooklyn and Queens appear at positions 11 and 32, respectively.
+
+## 3.2 Spatial Hotspots
+
+The heatmap shows that subway crime is unevenly distributed, with Midtown Manhattan as the main hotspot and additional clusters in Harlem, southern Manhattan, the southern Bronx, and parts of Brooklyn. Queens has fewer high-density areas, consistent with its lower-ranking stations. Overall, crime is concentrated in specific locations, particularly major transportation hubs in Manhattan, suggesting a possible link between crime concentration and passenger volume.
+
+## 3.3 Does Ridership Scale with Crime?
+
+System-wide monthly analysis shows a **modest positive correlation** between subway ridership and crime (r ≈ 0.29). However, this relationship is not stable over time. Prior to 2022, the correlation was weak (r ≈ 0.19). After 2022, as ridership recovered, the correlation strengthened substantially (r ≈ 0.54).
+
+Normalized crime rates reveal additional insight. Before COVID, crimes per million riders declined during peak ridership years. After late 2023, normalized crime rates increased even as ridership continued to recover, indicating rising per-rider risk rather than a simple volume effect.
+
+## 3.4 Borough Crime Rates Adjusted for Ridership
+
+This sub question examines which New York City borough reports the highest transit crime rate when adjusted for ridership between 2018 and 2024. Rather than relying on raw crime counts, the analysis normalizes transit-related crimes using system-wide subway ridership data to provide a fairer comparison of relative risk across boroughs.
+
+Using our datasets, the study calculates crime rates as crimes per million system riders. Although borough-level ridership data is unavailable, applying a consistent system-wide denominator allows for meaningful relative comparisons.
+The results show that Manhattan reports both the highest total number of transit crimes and the highest adjusted crime rate, averaging 5.29 crimes per million riders. Brooklyn follows with 3.50, while the Bronx and Queens report lower rates at 2.22 and 1.49. Temporal analysis reveals notable spikes in 2020, driven by pandemic-related ridership declines, and again in 2024 as crime increased faster than ridership recovery.
+
+## 3.5 Crime Trends Over Time
+
+To assess changes in subway crime over time, this analysis uses a rate-based approach that accounts for large post-pandemic fluctuations in subway ridership. Crime is normalized by monthly ridership to allow meaningful comparisons across periods with different transit volumes.
+
+Using NYPD Transit Bureau complaint data combined with monthly MTA ridership totals, crime rates are expressed as complaints per one million rides. The results show a decline in crime rates in early 2022, followed by relative stability through early 2023. Beginning in late 2023, crime per rider increases sharply and remains elevated throughout most of 2024.
+
+Because this increase persists after accounting for ridership recovery, it cannot be explained by changes in passenger volume alone. Early 2025 observations are excluded due to incomplete ridership data. Overall, the findings indicate a sustained rise in reported crime risk per trip since late 2023.
+
+
+## 3.6 Socioeconomic Conditions and Subway Crime
+
+A key part of our project examines whether subway crime is evenly distributed across New York City or whether neighborhood characteristics help explain where crimes are more likely to occur. Specifically, we study whether socioeconomic conditions around subway stations are associated with higher or lower levels of subway crime after accounting for differences in subway usage.
+
+To capture neighborhood socioeconomic conditions, we use median household income at the ZIP code level. Median income is a widely used indicator of economic resources and living conditions and provides a consistent way to compare neighborhoods across the city. These data come from the U.S. Census Bureau’s ACS and offer reliable, citywide estimates. While income alone does not capture all aspects of neighborhood disadvantage, it serves as a clear and interpretable benchmark.
+
+Each subway crime was assigned to a ZIP code based on location, linking incidents directly to neighborhood income levels. We used average weekday ridership at the station level, which reflects typical subway usage and avoids short-term fluctuations. Stations were assigned to ZIP codes, and ridership was aggregated to the neighborhood level. Crime counts were then normalized as crimes per 100,000 rides, allowing us to focus on crime risk per rider rather than total volume.
+To capture long run patterns, we averaged crime rates from 2018 through 2023. The results show a clear negative relationship: higher-income ZIP codes tend to experience lower subway crime rates after accounting for ridership. This analysis indicates that subway crime is not evenly distributed across the city and that neighborhood socioeconomic conditions are closely related to transit safety.
+
+## 3.7 Time of Day and Borough:
+
+This question examines how subway crime varies by time of day and borough and then adjusts these patterns for ridership volume. A raw heatmap of complaint counts shows that Manhattan consistently records the highest volumes across most time windows, followed by Brooklyn, while the Bronx and Queens show lower absolute counts but similar time-of-day profiles.
+
+To better capture risk rather than volume, crime counts are normalized with system-wide ridership, assuming broadly similar temporal ridership patterns across boroughs. After adjustment, Manhattan still shows elevated risk during certain periods, but its dominance is less absolute, and other boroughs display comparable per-rider risk during specific time windows. This approach relies on strong assumptions and is limited by the availability of daily ridership data only from 2020 onward and incomplete 2025 data, so primary interpretation focuses on 2015–2024.
+
+Considering raw and normalized patterns together provides a more nuanced view: raw counts describe overall crime burden, while ridership-adjusted measures highlight relative per-rider exposure, underscoring why both timing and passenger volume are essential when interpreting subway crime statistics.
+
+# 4. Integrating Findings to Answer the Overarching Question
+
+Taken together, the Specific Questions provide a cohesive answer to the Overarching Question. Subway crime is **strongly correlated with where crimes occur**, particularly at major stations and hubs, but this relationship is mediated by ridership volume, time of day, and neighborhood context.
+
+While higher ridership does correspond to higher crime counts, normalization reveals that risk is not evenly distributed. Post-COVID dynamics have altered how crime scales with ridership, and recent increases in per-rider risk suggest that safety challenges cannot be dismissed as a temporary rebound artifact.
+
+# 5. Visual Evidence
+
+Key visualizations—including borough trend lines, station-level rankings, heatmaps, and normalized rate plots—play a central role in communicating findings. These visuals highlight concentration, temporal change, and uncertainty in ways that tables or raw statistics cannot. Importantly, consistent formatting and normalization allow comparisons across SQs and reinforce the narrative structure.
+
+# 6. Relationship to Prior Literature
+
+Previous studies examined NYC subway crime over shorter periods or specific neighborhoods. For instance, Columbia Mailman School of Public Health (2018–2023) found transit assaults rose during COVID and have not returned to pre-pandemic levels, while Li and Kim (SAGE) showed neighborhoods with more subway stations have higher property and violent crime rates.
+
+Our study extends this work by covering a longer period, including post-COVID updates, and using detailed station-level and temporal analysis. By accounting for exposure, we show that rising subway crime reflects measurable per-rider risk, not just perception.
+
+# 7. Implications and Next Steps
+
+These results suggest that effective transit safety policy must move beyond raw crime counts. Interventions should prioritize high-risk stations, time periods, and neighborhoods rather than system-wide measures alone. Improved borough-level and time-specific ridership data would further enhance future analysis.
+
+Potential next steps include incorporating enforcement presence, service disruptions, and fare evasion data, as well as extending the framework to other transit modes.
+
+# 8. Links to Individual Technical Reports
+
+Each team member’s technical, reproducible report provides detailed methodology and code supporting the findings summarized here:
+
+- **Individual Report 1::** [How is crime distributed across the NYC subway system, and which stations report the highest number of crimes?](https://yagoparada.github.io/STA9750-2025-FALL/courseproject_sq1.html)
+- **Individual Report 2:** [Does Subway Ridership Volume Correlate with Transit Crime?](https://tanmaysharma96.github.io/STA9750-2025-FALL/MTA_project.html)
+- **Individual Report 3:** [Borough Crime Rates Adjusted for Ridership](https://xutang-xt.github.io/STA9750-2025-FALL/final%20course%20project.html)
+- **Individual Report 4:** [Subway Crime Rate Trend Over Time](https://xiaolinwu01.github.io/STA9750-2025-FALL/course_project/individual/xiaolin_sq_subway_crime_trend.html)
+- **Individual Report 5**: [To what extent do socioeconomic conditions predict variation in subway crime rates?](Link: https://maham1004.github.io/STA9750-2025-FALL/FinalProjectReport.html)
+- **Individual Report 6**: [Are subway crimes linked to time of day and borough, after accounting for ridership volume?](https://nupur-nagarkatti.github.io/STA9750-2025-FALL/courseproject.html)
+
+
+
+
+

@@ -204,7 +204,7 @@ borough_lvl_table |>
       style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
       'Total Subway-Related Crimes by Borough (2015–2025)'
     ),
-    colnames = c("Borough" = "Boro Nm", "Number Crimes" = "N Crimes"),
+    colnames = c("Borough" = "Boro Nm", "Number of Crimes" = "N Crimes", "Percentage of Total Crimes" = "Percentage Total"),
     options = list(
       searching = FALSE,
       paging = FALSE,
@@ -415,7 +415,7 @@ station_lvl_manhattan_table |>
       style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
       'Top 5 Manhattan Stations by Subway Crimes (2015–2025)'
     ),
-    colnames = c("Number Crimes" = "N Crimes"),
+    colnames = c("Number of Crimes" = "N Crimes", "Percentage of Total Crimes" = "Percentage Total"),
     options = list(
       searching = FALSE,
       paging = FALSE,
@@ -514,7 +514,7 @@ station_lvl_brooklyn_table |>
       style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
       'Top 5 Brooklyn Stations by Subway Crimes (2015–2025)'
     ),
-    colnames = c("Number Crimes" = "N Crimes"),
+    colnames = c("Number of Crimes" = "N Crimes", "Percentage of Total Crimes" = "Percentage Total"),
     options = list(
       searching = FALSE,
       paging = FALSE,
@@ -613,7 +613,7 @@ station_lvl_bronx_table |>
       style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
       'Top 5 Bronx Stations by Subway Crimes (2015–2025)'
     ),
-    colnames = c("Number Crimes" = "N Crimes"),
+    colnames = c("Number of Crimes" = "N Crimes", "Percentage of Total Crimes" = "Percentage Total"),
     options = list(
       searching = FALSE,
       paging = FALSE,
@@ -713,7 +713,7 @@ station_lvl_queens_table |>
       style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
       'Top 5 Queens Stations by Subway Crimes (2015–2025)'
     ),
-    colnames = c("Number Crimes" = "N Crimes"),
+    colnames = c("Number of Crimes" = "N Crimes", "Percentage of Total Crimes" = "Percentage Total"),
     options = list(
       searching = FALSE,
       paging = FALSE,

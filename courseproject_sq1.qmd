@@ -21,7 +21,7 @@ The project is divided into several sub-questions. In this section, we focus on 
 
 # Data acquisition
 
-For this analysis, we used the NYPD Complaint Data Historic dataset, which is publicly available on NYC Open Data. This dataset contains records of all valid felony, misdemeanor, and violation crimes reported to the NYPD, including details such as the date of the complaint, borough, location coordinates, and subway station when applicable.
+For this analysis, we used the [**NYPD Complaint Data Historic**]{style="color:#0039A6"} dataset, which is publicly available on NYC Open Data. This dataset contains records of all valid felony, misdemeanor, and violation crimes reported to the NYPD, including details such as the date of the complaint, borough, location coordinates, and subway station when applicable.
 To acquire the data relevant for this sub-question, we filtered the dataset to include only crimes reported between 2015 and 2025 that occurred in the subway system or were handled by the NY Transit Police. The data was retrieved programmatically using the following R code.
 
 ```{r}
@@ -50,7 +50,7 @@ complaint_df <- read_csv(file.path("data", "courseproject", "nypd_complaint_hist
 # Data Preparation and Limitations
 
 Once the data was acquired, the next step was to inspect it for potential limitations and determine any necessary preparation or cleaning before starting the analysis.
-Upon initial examination, the first limitation identified was that there were no recorded subway crime cases for Staten Island. Investigating the full NYPD Complaint Data Historic dataset revealed that crimes in Staten Island may be recorded under Staten Island Rapid Transit rather than N.Y. Transit Police, as is the case for the other boroughs. To account for this, we retrieved the data for Staten Island by adjusting the filter to include Staten Island Rapid Transit and using records from the MTA Police Department:
+Upon initial examination, the [**first limitation**]{style="color:#0039A6"} identified was that there were [**no recorded subway crime cases for Staten Island**]{style="color:#0039A6"}. Investigating the full NYPD Complaint Data Historic dataset revealed that crimes in Staten Island may be recorded under Staten Island Rapid Transit rather than N.Y. Transit Police, as is the case for the other boroughs. To account for this, we retrieved the data for Staten Island by adjusting the filter to include Staten Island Rapid Transit and using records from the MTA Police Department:
 
 ```{r}
 
@@ -80,7 +80,7 @@ complaint_statent_island_df <- read_csv(file.path("data", "courseproject", "nypd
 
 ```
 
-Examining the data from Staten Island, it was observed that most station names were missing, and there was no reliable way to ensure that the recorded crimes occurred in the subway system. Furthermore, the total number of crimes during the 10-year period was only 280, which is extremely low compared to the other boroughs As will be shown later, even the borough with the lowest number of crimes during this period, Queens, recorded 14,482 incidents. Therefore, given these limitations and the inability to guarantee that the data represents subway crimes, the team decided to omit Staten Island from the study.
+Examining the data from Staten Island, it was observed that [**most station names were missing**]{style="color:#0039A6"}, and there was no reliable way to ensure that the recorded crimes occurred in the subway system. Furthermore, the [**total number of crimes during the 10-year period was only 280**]{style="color:#0039A6"}, which is extremely low compared to the other boroughs As will be shown later, even the borough with the lowest number of crimes during this period, Queens, recorded 14,482 incidents. Therefore, given these limitations and the inability to guarantee that the data represents subway crimes, the team decided to [**omit Staten Island from the study**]{style="color:#0039A6"}.
 
 ```{r}
 
@@ -104,7 +104,7 @@ complaint_statent_island_df |> format_titles() |>
   )
 ```
 <br>
-Another issue identified in the dataset was that some crime records were missing the train station name. To address this, all null values in the station_name field were filled by matching the longitude, latitude, and borough with other records that had the same coordinates and a valid station name. This approach allowed us to complete the station information for all relevant records, ensuring that the subsequent analysis could correctly associate crimes with the corresponding subway stations.
+[**Another issue**] identified in the dataset was that [**some crime records were missing the train station name**]{style="color:#0039A6"}. To address this, all null values in the station_name field were filled by matching the longitude, latitude, and borough with other records that had the same coordinates and a valid station name. This approach allowed us to complete the station information for all relevant records, ensuring that the subsequent analysis could correctly associate crimes with the corresponding subway stations.
 
 ```{r}
 
@@ -151,7 +151,7 @@ check_na_borough <- df_borough_complete |> filter(is.na(boro_nm))
 
 ```
 
-During the process of replacing null values in the station name column, five observations were identified with missing borough values. Given the small number of affected records, a rule-based approach was applied to assign boroughs using station names, as shown in the code below.
+During the process of replacing null values in the station name column, [**five observations were identified with missing borough values**]{style="color:#0039A6"}. Given the small number of affected records, a rule-based approach was applied to assign boroughs using station names, as shown in the code below.
 
 ```{r}
 df_borough_complete <- df_borough_complete |> 
@@ -168,7 +168,18 @@ check_na_borough2 <- df_borough_complete |> filter(is.na(boro_nm))
 
 # Analysis
 
-With all the data prepared, we can now proceed with the analysis. The approach used to analyze this sub-question is hierarchical, starting at the borough level and then drilling down to the station level.
+With all the data prepared, we can now proceed with the analysis. The approach used for this sub-question is [**hierarchical**]{style="color:#0039A6"}: we first examine the overall number of reported crimes to get a general overview, then analyze trends at the borough level, and finally drill down to the station level.
+
+```{r}
+total_n_reported_crime <- df_borough_complete |> 
+  summarize(total_crimes = scales::comma(n_distinct(cmplnt_num)))
+
+highlight <- function(x, color = "#0039A6") { #Highlight answers
+  sprintf('<span style="color:%s; font-weight:bold;">%s</span>', color, x)
+}
+```
+
+Between 2015 and 2025, a total of `r highlight(total_n_reported_crime$total_crimes)` subway-related crimes were reported across New York City, which averages to about [**32 incidents per day**]{style="color:#0039A6"} over this 11-year period. With these numbers in mind, we can now proceed to the borough-level analysis.
 
 ## Borough Level
 
@@ -181,14 +192,18 @@ borough_lvl_table <- df_borough_complete |>
   group_by(boro_nm) |>
   summarise(n_crimes = n(),
             .groups = "drop") |>
-  mutate(percentage_total = percent(n_crimes / sum(n_crimes)))
+  mutate(percentage_total = percent(n_crimes / sum(n_crimes))) |>
+  arrange(desc(n_crimes))
 
 
 borough_lvl_table |> 
   mutate(n_crimes = comma(n_crimes),
          boro_nm = str_to_title(str_to_lower(boro_nm))) |>
   format_titles() |>
-  datatable(
+  datatable(caption = htmltools::tags$caption(
+      style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
+      'Total Subway-Related Crimes by Borough (2015–2025)'
+    ),
     colnames = c("Borough" = "Boro Nm", "Number Crimes" = "N Crimes"),
     options = list(
       searching = FALSE,
@@ -284,7 +299,7 @@ borough_lvl_visualization
 
 ```
 
-From the borough-level line chart, crime levels appear relatively stable during the pre-COVID period. As expected, a clear decrease is observed during the COVID years, coinciding with reduced subway usage and mobility restrictions. However, in the post-COVID period, crime levels rebound sharply, reaching new historical highs in several boroughs.
+From the borough-level line chart, crime levels appear [**relatively stable**]{style="color:#0039A6"} during the pre-COVID period. As expected, a [**clear decrease**]{style="color:#0039A6"} is observed during the COVID years, coinciding with reduced subway usage and mobility restrictions. However, in the post-COVID period, crime levels [**rebound sharply**]{style="color:#0039A6"}, reaching new historical highs in several boroughs.
 In particular, Brooklyn shows a notable change in its trend. Before COVID-19, the number of reported crimes in Brooklyn was approximately half of those recorded in Manhattan. In the post-COVID period, however, crime levels in Brooklyn increased substantially, resulting in figures that are now almost comparable to those of Manhattan
 
 ## Station Level 
@@ -375,7 +390,7 @@ ggplot(station_lvl_table,
 
 ```
 
-Among the top 10 subway stations with the highest number of reported crimes, eight are located in Manhattan and the remaining two are in the Bronx. The station with the highest number of reported crimes is 125 Street, with 4,629 incidents, which represents 3.60% of the total number of crimes recorded during the study period.
+Among the [**top 10 subway stations**]{style="color:#0039A6"} with the highest number of reported crimes, [**eight are located in Manhattan**]{style="color:#0039A6"} and the remaining two are in the Bronx. The station with the highest number of reported crimes is [**125 Street**]{style="color:#0039A6"}, with [**4,629 incidents**]{style="color:#0039A6"}, which represents 3.60% of the total number of crimes recorded during the study period.
 
 ### Manhattan
 
@@ -396,7 +411,10 @@ station_lvl_manhattan_table |>
   mutate(n_crimes = comma(n_crimes),
          station_name = str_to_title(str_to_lower(station_name))) |>
   format_titles() |>
-  datatable(
+  datatable(caption = htmltools::tags$caption(
+      style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
+      'Top 5 Manhattan Stations by Subway Crimes (2015–2025)'
+    ),
     colnames = c("Number Crimes" = "N Crimes"),
     options = list(
       searching = FALSE,
@@ -410,7 +428,7 @@ station_lvl_manhattan_table |>
   )
 ```
 <br>
-This table closely mirrors the results observed in the top 10 stations analysis. It shows that a large share of reported subway crime is concentrated in Midtown Manhattan, with four out of the five stations located in this area. This concentration highlights Midtown’s role as a major transportation hub with high passenger volumes, which may contribute to higher reported crime levels compared with other parts of the city.
+This table closely mirrors the results observed in the top 10 stations analysis. It shows that a large share of reported subway crime is concentrated in [**Midtown Manhattan**]{style="color:#0039A6"}, with four out of the five stations located in this area. This concentration highlights Midtown’s role as a [**major transportation hub**]{style="color:#0039A6"} with high passenger volumes, which may contribute to higher reported crime levels compared with other parts of the city.
 
 ```{r}
 
@@ -453,7 +471,7 @@ stations_highest_increase_manhattan <- station_yearly |>
   ) +
   scale_color_brewer(palette = "Dark2") +
   labs(
-    title = "Crime Evolution by Station - Manhattan",
+    title = "Yearly Crime Evolution by Station - Manhattan",
     subtitle = "Highlighted stations show the largest increase",
     x = "Year",
     y = "Number of Crimes",
@@ -492,7 +510,10 @@ station_lvl_brooklyn_table |>
   mutate(n_crimes = comma(n_crimes),
          station_name = str_to_title(str_to_lower(station_name))) |>
   format_titles() |>
-  datatable(
+  datatable(caption = htmltools::tags$caption(
+      style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
+      'Top 5 Brooklyn Stations by Subway Crimes (2015–2025)'
+    ),
     colnames = c("Number Crimes" = "N Crimes"),
     options = list(
       searching = FALSE,
@@ -506,7 +527,7 @@ station_lvl_brooklyn_table |>
   )
 ```
 <br>
-In the case of Brooklyn, the highest concentration of reported crimes is observed at Broadway Junction. In the dataset, this station is recorded under different names, Broadway–East New York and Broadway–Eastern Parkway, which together account for 2,494 reported incidents.
+In the case of Brooklyn, the highest concentration of reported crimes is observed at [**Broadway Junction**]{style="color:#0039A6"}. In the dataset, this station is recorded under different names, Broadway–East New York and Broadway–Eastern Parkway, which together account for [**2,494 reported incidents**]{style="color:#0039A6"}.
 
 ```{r}
 
@@ -549,7 +570,7 @@ stations_highest_increase_brooklyn <- station_yearly |>
   ) +
   scale_color_brewer(palette = "Dark2") +
   labs(
-    title = "Crime Evolution by Station - BROOKLYN",
+    title = "Yearly Crime Evolution by Station - BROOKLYN",
     subtitle = "Highlighted stations show the largest increase",
     x = "Year",
     y = "Number of Crimes",
@@ -567,7 +588,7 @@ stations_highest_increase_brooklyn <- station_yearly |>
 stations_highest_increase_brooklyn
 ```
 
-From the line chart, we can identify the stations that have experienced the largest increase in the number of reported crimes over the study period.
+From the line chart, we can identify the stations that have experienced the largest increase in reported crimes over the study period. Notably, among the three Brooklyn stations with the greatest growth, Broadway–Eastern Parkway started with the lowest number of incidents but ended nearly at the top by the end of the period, highlighting the significant rise in crime at this station.
 
 ### Bronx
 
@@ -588,7 +609,10 @@ station_lvl_bronx_table |>
   mutate(n_crimes = comma(n_crimes),
          station_name = str_to_title(str_to_lower(station_name))) |>
   format_titles() |>
-  datatable(
+  datatable(caption = htmltools::tags$caption(
+      style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
+      'Top 5 Bronx Stations by Subway Crimes (2015–2025)'
+    ),
     colnames = c("Number Crimes" = "N Crimes"),
     options = list(
       searching = FALSE,
@@ -603,7 +627,7 @@ station_lvl_bronx_table |>
 
 ```
 <br>
-The station 161 St–Yankee Stadium records the highest number of reported crimes in the Bronx, with 1,917 incidents, representing 8.51% of the total number of crimes in the borough.
+The station [**161 St–Yankee Stadium**]{style="color:#0039A6"} records the highest number of reported crimes in the Bronx, with [**1,917 incidents**]{style="color:#0039A6"}, representing 8.51% of the total number of crimes in the borough.
 
 ```{r}
 
@@ -646,8 +670,8 @@ stations_highest_increase_bronx <- station_yearly |>
   ) +
   scale_color_brewer(palette = "Dark2") +
   labs(
-    title = "Crime Evolution by Station - BRONX",
-    subtitle = "Highlighted stations show the largest increase and decrease",
+    title = "Yearly Crime Evolution by Station - BRONX",
+    subtitle = "Highlighted stations show the largest increase",
     x = "Year",
     y = "Number of Crimes",
     color = NULL
@@ -685,7 +709,10 @@ station_lvl_queens_table |>
   mutate(n_crimes = comma(n_crimes),
          station_name = str_to_title(str_to_lower(station_name))) |>
   format_titles() |>
-  datatable(
+  datatable(caption = htmltools::tags$caption(
+      style = 'caption-side: top; text-align: center; font-size:18px; font-weight:bold; color:black;',
+      'Top 5 Queens Stations by Subway Crimes (2015–2025)'
+    ),
     colnames = c("Number Crimes" = "N Crimes"),
     options = list(
       searching = FALSE,
@@ -699,7 +726,7 @@ station_lvl_queens_table |>
   )
 ```
 <br>
-In Queens, the Parsons/Archer–Jamaica Center station has the highest number of reported crimes, with 943 incidents, followed closely by the Roosevelt Ave.–Jackson Heights station, which recorded 909 incidents.
+In Queens, the [**Parsons/Archer–Jamaica Center**]{style="color:#0039A6"} station has the highest number of reported crimes, with [**943 incidents**]{style="color:#0039A6"}, followed closely by the Roosevelt Ave.–Jackson Heights station, which recorded 909 incidents.
 
 ```{r}
 
@@ -742,8 +769,8 @@ stations_highest_increase_queens <- station_yearly |>
   ) +
   scale_color_brewer(palette = "Dark2") +
   labs(
-    title = "Crime Evolution by Station - QUEENS",
-    subtitle = "Highlighted stations show the largest increase and decrease",
+    title = "Yearly Crime Evolution by Station - QUEENS",
+    subtitle = "Highlighted stations show the largest increase",
     x = "Year",
     y = "Number of Crimes",
     color = NULL
@@ -760,7 +787,7 @@ stations_highest_increase_queens <- station_yearly |>
 stations_highest_increase_queens
 ```
 
-To conclude the station-level analysis, we can identify the station with the highest increase in crime in Queens.
+To conclude the station-level analysis, we can identify Roosevelt Ave.–Jackson Heights as the station in Queens with the largest increase in reported crimes over the study period, nearly tripling its initial numbers.
 
 In the following SQs, the rest of the team will attempt to explain these increases, for example by analyzing the relationship between crime and ridership numbers.
 
@@ -768,7 +795,7 @@ In the following SQs, the rest of the team will attempt to explain these increas
 
 After examining crime trends by borough, identifying high-crime stations, and exploring changes over time, the following map shows how subway crime is distributed across New York City in space. Instead of drawing a dot for every incident, it summarizes where incidents tend to pile up and where they are more spread out.
 
-The colors on the map come from a statistical technique called kernel density estimation. Imagine placing a smooth “box” of height 1 over each crime location, then adding all those boxes together across the map. Where many crimes happen close to each other, the boxes overlap and create a tall “hill”; where crimes are rare, the surface stays low. The result is a continuous surface of crime density: high values where incidents are tightly clustered, lower values where they are more diffuse.
+The colors on the map come from a statistical technique called [**kernel density estimation**]{style="color:#0039A6"}. Imagine placing a smooth “box” of height 1 over each crime location, then adding all those boxes together across the map. Where many crimes happen close to each other, the boxes overlap and create a tall “hill”; where crimes are rare, the surface stays low. The result is a continuous surface of crime density: high values where incidents are tightly clustered, lower values where they are more diffuse.
 
 The legend numbers (for example, 100, 200, or 300) represent the height of that smoothed density surface. A value of 300 does not literally mean “300 crimes at this exact point”; instead, it means that, after smoothing with the boxes, the local concentration of crimes is about three times higher than an area with a value of 100. Moving from blue to green to yellow to red corresponds to increasing local concentration of incidents, even though each color patch covers a geographic area rather than a single station.
 
@@ -897,14 +924,14 @@ heatmap <- ggmap(nyc_map) +
 
 ![](images/courseproject/map.png){fig-align="center" width=550 height=750 style="border-radius:20px;"}
 
-The map allows us to see at a glance the areas with the highest crime density. As observed in the previous analysis, the highest concentration is in Midtown Manhattan. Other areas with relatively high crime density include the southern part of Manhattan, Harlem, the southern Bronx, and midtown Brooklyn, among others.
+The map allows us to see at a glance the areas with the highest crime density. As observed in the previous analysis, the [**highest concentration is in Midtown Manhattan**]{style="color:#0039A6"}. Other areas with relatively high crime density include the southern part of Manhattan, Harlem, the southern Bronx, and midtown Brooklyn, among others.
 
 # Conclusion
 
-Throughout this study, we analyzed the distribution of subway crime across New York City, focusing on both borough-level and station-level patterns. At the borough level, we observed that Manhattan consistently reports the highest number of crimes, with hotspots in Midtown, southern Manhattan, and Harlem. Other areas with elevated crime include southern Bronx and midtown Brooklyn, though at lower levels.
+Throughout this study, we analyzed the distribution of subway crime across New York City, focusing on both borough-level and station-level patterns. At the borough level, we observed that [**Manhattan**]{style="color:#0039A6"} consistently reports the [**highest number of crimes**]{style="color:#0039A6"}, with hotspots in [**Midtown, southern Manhattan, and Harlem**]{style="color:#0039A6"}. Other areas with elevated crime include southern Bronx and midtown Brooklyn, though at lower levels.
 
 We also examined crime trends over time at both the borough and station level. Crime levels were relatively stable before COVID, and after the pandemic, they have been increasing, reaching near all-time highs. This analysis also highlights the stations with the highest concentration of incidents.
 
-Finally, the heatmap synthesizes these findings, showing areas where crimes are tightly clustered while reminding us that lighter or blank areas are not crime-free, just less dense. Overall, the analysis demonstrates that subway crime is spatially concentrated, providing insight into which boroughs and stations are most affected.
+Finally, the heatmap synthesizes these findings, showing areas where crimes are tightly clustered while reminding us that lighter or blank areas are not crime-free, just less dense. Overall, the analysis demonstrates that [**subway crime is spatially concentrated**]{style="color:#0039A6"}, providing insight into which boroughs and stations are most affected.
 
 ![](images/courseproject/car_train_pixel.png){fig-align="center" width=250 height=100 style="border-radius:20px;"}

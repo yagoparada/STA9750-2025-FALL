@@ -104,7 +104,7 @@ complaint_statent_island_df |> format_titles() |>
   )
 ```
 <br>
-[**Another issue**] identified in the dataset was that [**some crime records were missing the train station name**]{style="color:#0039A6"}. To address this, all null values in the station_name field were filled by matching the longitude, latitude, and borough with other records that had the same coordinates and a valid station name. This approach allowed us to complete the station information for all relevant records, ensuring that the subsequent analysis could correctly associate crimes with the corresponding subway stations.
+[**Another issue**]{style="color:#0039A6"} identified in the dataset was that [**some crime records were missing the train station name**]{style="color:#0039A6"}. To address this, all null values in the station_name field were filled by matching the longitude, latitude, and borough with other records that had the same coordinates and a valid station name. This approach allowed us to complete the station information for all relevant records, ensuring that the subsequent analysis could correctly associate crimes with the corresponding subway stations.
 
 ```{r}
 

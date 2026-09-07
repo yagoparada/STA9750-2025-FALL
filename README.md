@@ -8,7 +8,7 @@ This repository contains the projects completed for STA9750 (Baruch College), co
 - **[MP02 – Housing Affordability (YIMBY Analysis)](https://yagoparada.github.io/STA9750-2025-FALL/mp02.html)**: Investigated the relationship between zoning permissiveness, housing supply, and rent burden across U.S. metro areas using Census and BLS data.
 - **[MP03 – NYC Urban Forest Analysis](https://yagoparada.github.io/STA9750-2025-FALL/mp03.html)**: Mapped and analyzed NYC's street tree data by council district, identifying maintenance priorities and proposing a district-level intervention.
 - **[MP05 – BLS Employment Data: Initial Estimates vs. Final Numbers](https://yagoparada.github.io/STA9750-2025-FALL/mp05.html)**: Investigated the accuracy of BLS Current Employment Statistics (CES) revisions over time using hypothesis testing.
-- **[Course Project – NYC Subway Crime Analysis](https://yagoparada.github.io/STA9750-2025-FALL/courseproject_sq1)**: Analyzed crime distribution across the NYC subway system using MTA data.
+- **[Course Project – NYC Subway Crime Analysis](https://yagoparada.github.io/STA9750-2025-FALL/courseproject_sq1)**: Team project analyzing crime patterns across the NYC subway system using MTA data. My focus: how crime is distributed across the subway system and which stations report the highest number of crimes.
 
 ## 🛠️ Tools & Technologies
 
